@@ -28,3 +28,14 @@
 
 
     <script src="./js/dashboard/dashboard-1.js"></script>
+
+    <!-- font awsome -->
+    <script src="./font-awsome/js/all.js"></script>
+
+
+
+    <!-- data table plugins -->
+    <script src="./plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="./plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="./plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+

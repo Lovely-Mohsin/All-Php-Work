@@ -9545,7 +9545,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     border: 0;
     border-radius: 0;
     border-bottom: 1px solid #f5f5f5;
-    padding-left: 0;
+    padding-left: 10px !important;
     color: #7A88A1; }
 
 .form-control:focus {
