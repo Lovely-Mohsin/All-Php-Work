@@ -1,33 +1,36 @@
-<?Php
+<?php
 
-// Databes Connection
-$db_conn = mysqli_connect('localhost', 'root', '', 'ogani_store');
-if($db_conn){
-    // echo 'Database is Connected';
-}
+//  $targetDir = "categories";
+//  echo $targetDir = __FILE__ . "/images/$targetDir/"; exit;
+// exit;
 
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    
+
+require_once("./db-con.php");
+require_once "./includes/helpers.php";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // echo "<pre>"; print_r($_POST);
+    // echo "<pre>"; print_r($_FILES['image']); 
+    //exit;
+
     $category = $_POST['category'];
 
-    $targetdir = "./images/categories/";
-    $newName = time() . $_FILES['image']['name'];
+    // upload image
+    $data = uploadImage("categories", $_FILES['image']);
 
-    $max_size = 5 * 1024 * 1024;
-    if($_FILES['image']['error'] === 0){
-        if($_FILES['image']['size'] > $max_size){
-            die ("Image Size is too large");
-        }
-        move_uploaded_file($_FILES['image']['tmp_name'] , $targetdir . $newName);
+    if ($data['errors'] === false) {
+        // save info into db
+        $name = $data['result'];
+        $query = "INSERT INTO categories VALUES(null, '$category', '$name') ";
 
-        $query = "INSERT INTO categories VALUES(null , '$category' , '$newName')";
-
-        if(mysqli_query($db_conn, $query)){
-            echo 'Successfully Created';
+        if (!mysqli_query($con, $query)) {
+            die("query failed");
         }
     }
 }
 
+
+//exit;
 
 ?>
 
@@ -41,7 +44,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <title>Categories - Home</title>
 
     <!-- css-links include -->
-    <?php require_once("./includes/css-links.php") ?>
+    <?php require_once "./includes/css-links.php" ?>
 
 </head>
 
@@ -59,9 +62,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         <!-- add category container -->
         <div class="container mt-3 bg-white p-4">
 
-            <h3> <i class="fa fa-plus text-primary"></i> Add Category</h3>
+            <h3> <i class="fa fa-plus text-success"></i> Add Category</h3>
             <hr>
+
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data" class="row">
+
                 <div class="col-lg-4">
                     <label class="form-label" for="val-username">Category <span class="text-danger">*</span>
                     </label>
@@ -70,26 +75,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
                 <div class="col-lg-4">
-                    <label class="form-label" for="val-username">Category Image <span class="text-danger">*</span>
+                    <label class="form-label" for="userimage">Category Image <span class="text-danger">*</span>
                     </label>
-                    <input type="file" class="form-control" id="val-username" name="image" placeholder="Enter here..." required>
+                    <input type="file" class="form-control" id="userimage" name="image" accept="image/*" required>
                 </div>
 
 
                 <div class="col-lg-4">
                     <label for=""></label>
 
-                    <button class="btn btn-primary btn-lg mt-2 w-100">Add Category</button>
+                    <button class="btn btn-success text-white btn-lg mt-2 w-100"><i class="fa fa-plus"></i> Add Category</button>
                 </div>
 
             </form>
+
+            <?php if (isset($data) && $data['errors'] === true) { ?>
+                <div class="alert alert-danger mt-2 uploadingErr"><?php echo $data['result'] ?></div>
+            <?php } ?>
+
+
+            <?php if (isset($data) && $data['errors'] === false) { ?>
+                <div class="alert alert-success mt-2 uploadingErr"> <b>Congratulations! </b> Operation Performed Successfully...</div>
+            <?php } ?>
+
         </div>
 
 
 
         <!-- view categories container -->
         <div class="container mt-3 bg-white p-4">
-            <h3> <i class="fa fa-eye text-primary"></i> View Categories</h3>
+            <h3> <i class="fa fa-eye text-success"></i> View Categories</h3>
             <hr>
 
 
@@ -103,79 +118,39 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Tiger Nixon</td>
-                            <td>System Architect</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Link 1</a> 
-                                        <a class="dropdown-item" href="#">Link 2</a> 
-                                        <a class="dropdown-item" href="#">Link 3</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Garrett Winters</td>
-                            <td>Accountant</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Link 1</a> 
-                                        <a class="dropdown-item" href="#">Link 2</a>
-                                         <a class="dropdown-item" href="#">Link 3</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Ashton Cox</td>
-                            <td>Junior Technical Author</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Link 1</a> 
-                                        <a class="dropdown-item" href="#">Link 2</a> 
-                                        <a class="dropdown-item" href="#">Link 3</a>
-                                    </div>
-                                </div>
-                            </td>
 
-                        </tr>
-                        <tr>
-                            <td>Cedric Kelly</td>
-                            <td>Senior Javascript Developer</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Link 1</a>
-                                         <a class="dropdown-item" href="#">Link 2</a>
-                                          <a class="dropdown-item" href="#">Link 3</a>
-                                    </div>
-                                </div>
-                            </td>
+                        <?php
 
-                        </tr>
-                        <tr>
-                            <td>Airi Satou</td>
-                            <td>Accountant</td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Link 1</a> 
-                                        <a class="dropdown-item" href="#">Link 2</a> 
-                                        <a class="dropdown-item" href="#">Link 3</a>
-                                    </div>
-                                </div>
-                            </td>
+                        $select = "SELECT * FROM categories";
+                        $result = mysqli_query($con, $select);
 
-                        </tr>
+                        if (mysqli_num_rows($result) > 0) {
+
+                            while ($row = mysqli_fetch_assoc($result)) {
+
+
+                        ?>
+                                <tr>
+                                    <td><?php echo $row['category'] ?></td>
+                                    <td><img src="./images/categories/<?php echo $row['image'] ?>" height="50px" alt=""></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-success text-white dropdown-toggle" data-toggle="dropdown">Actions</button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Link 1</a>
+                                                <a class="dropdown-item" href="#">Link 2</a>
+                                                <a class="dropdown-item" href="#">Link 3</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                        <?php
+                            }
+                        }
+
+                        ?>
+
                     </tbody>
                 </table>
             </div>
@@ -196,6 +171,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     <?php require_once("./includes/javascript-links.php")  ?>
 
 
+
+
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".uploadingErr").hide();
+            }, 3000);
+
+        })
+    </script>
 
 
 </body>

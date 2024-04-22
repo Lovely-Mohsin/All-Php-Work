@@ -14700,3 +14700,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+/*=============== custom css added by mine =========== */
+
+.green-gradient{
+  background: linear-gradient(#6fd96f , #97ff97) !important;
+}
