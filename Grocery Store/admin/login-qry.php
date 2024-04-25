@@ -29,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && $_POST['login'] == "submit") {
     // if user exists then verify its password is correct ?
     $user = mysqli_fetch_assoc($exists);
 
-    if ($password !== $user['password']) {
+
+    if (password_verify($password, $user['password']) ) {
         $_SESSION['invalid'] = "Invalid Credentials!";
         header("Location:login.php");
         exit;

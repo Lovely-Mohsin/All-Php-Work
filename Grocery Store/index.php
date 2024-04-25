@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Ogani | Template</title>
+    <title>Ogani | Store</title>
 
     <!-- css links include -->
     <?php require_once("./includes/css-links.php") ?>

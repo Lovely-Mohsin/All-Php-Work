@@ -5,7 +5,7 @@
 
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
-        <div class="humberger__menu__wrapper">
+    <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
             <a href="#"><img src="img/logo.png" alt=""></a>
         </div>
@@ -27,7 +27,8 @@
                 </ul>
             </div>
             <div class="header__top__right__auth">
-                <a href="#"><i class="fa fa-user"></i> Login</a>
+                <a href="../admin/signup-customer.php"><i class="fa fa-user"></i> Login</a>
+
             </div>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
@@ -93,7 +94,25 @@
                                 </ul>
                             </div>
                             <div class="header__top__right__auth">
-                                <a href="#"><i class="fa fa-user"></i> Login</a>
+                                <a href="./signup.php"><i class="fa fa-user"></i> Login</a>
+                                <?php
+
+                                require_once("./db-con.php");
+                                $get_users = "SELECT * FROM users";
+
+                                $result = mysqli_query($con, $get_users);
+
+                                if (mysqli_num_rows($result) > 0) {
+                                    $row = mysqli_fetch_assoc($result);
+                                    $role = $row['role'];
+                                    if ($role == "employee" || $role == "admin") {
+                                        echo "<a href='./admin/login.php'><i class='fa fa-user'></i> Admin Login</a>
+                                            ";
+                                    }
+                                }
+
+                                ?>
+
                             </div>
                         </div>
                     </div>
@@ -143,8 +162,8 @@
     <!-- Header Section End -->
 
 
-        <!-- Hero Section Begin -->
-        <section class="hero hero-normal">
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">

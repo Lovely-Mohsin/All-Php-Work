@@ -33,7 +33,7 @@
             <?php
         if(!empty($_SESSION['send'])){
         $msg = $_SESSION['send'];
-        echo "<div class='alert alert-success alert-dismissible fade show credErr'>
+        echo "<div class='alert alert-success alert-dismissible fade show CredErr'>
         <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span>
         </button> <strong>Congratulations!</strong> $msg</div>";
         unset($_SESSION['send']);
@@ -124,3 +124,12 @@
 </body>
 
 </html>
+
+<script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".CredErr").hide();
+            }, 3000);
+
+        })
+    </script>

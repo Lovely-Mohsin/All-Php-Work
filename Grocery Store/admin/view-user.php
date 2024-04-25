@@ -1,4 +1,4 @@
-
+<?php  require_once("./auth.php") ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -29,7 +29,22 @@
 
         <!-- view categories container -->
         <div class="container mt-3 bg-white p-4">
-            <h3> <i class="fa fa-eye text-success"></i> View Users</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <h3> <i class="fa fa-plus text-success"></i> View User</h3>
+                </div>
+                <div class="col-md-8">
+                    <?php
+                    if (!empty($_SESSION['message'])) {
+                        $msg = $_SESSION['message'];
+                        echo "<div class='alert alert-success alert-dismissible fade show CredErr'>
+                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span>
+                        </button> <strong>Congratulations!</strong> $msg</div>";
+                        unset($_SESSION['message']);
+                    }
+                    ?>
+                </div>
+            </div>
             <hr>
 
             <div class="d-flex justify-content-end">
@@ -52,41 +67,41 @@
                     <tbody>
 
 
-                    <?php  
-                    
-                    require_once("./db-con.php");
-                    
-                    $get_users = "SELECT * FROM users";
+                        <?php
 
-                       $result = mysqli_query($con , $get_users);
+                        require_once("./db-con.php");
+                        $get_users = "SELECT * FROM users";
 
-                    if(mysqli_num_rows($result) > 0){
-                        while($row = mysqli_fetch_assoc($result)){
+                        $result = mysqli_query($con, $get_users);
+
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $id = $row['id'];
 
 
-                    ?>
+                        ?>
 
-                        <tr>
-                            <td><img src="./images/user/<?php echo $row['image'] ?>" alt="Product Image" height="60px"></td>
-                            <td><?= $row['name'] ?></td>
-                            <td><?= $row['email'] ?></td>
-                            <td><?= $row['mobile'] ?></td>
-                            <td><?= $row['address'] ?></td>
-                            <td><span class="badge bg-danger text-white p-1"><?=$row['role'] ?></span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn btn-success text-white dropdown-toggle" data-toggle="dropdown">Actions</button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="">Edit</a>
-                                        <a class="dropdown-item" href="./delete-user.php">Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                <tr>
+                                    <td><img src="./images/user/<?php echo $row['image'] ?>" alt="Product Image" height="60px"></td>
+                                    <td><?= $row['name'] ?></td>
+                                    <td><?= $row['email'] ?></td>
+                                    <td><?= $row['mobile'] ?></td>
+                                    <td><?= $row['address'] ?></td>
+                                    <td><span class="badge bg-danger text-white p-1"><?= $row['role'] ?></span></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn btn-success text-white dropdown-toggle" data-toggle="dropdown">Actions</button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="">Edit</a>
+                                                <a class="dropdown-item" href="./delete-user.php?id=<?=$id?>">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
 
-                        <?php 
-                             }
-                            } 
+                        <?php
+                            }
+                        }
                         ?>
 
                     </tbody>
@@ -114,3 +129,11 @@
 </body>
 
 </html>
+<script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".CredErr").hide();
+            }, 3000);
+
+        })
+    </script>
