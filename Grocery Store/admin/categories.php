@@ -23,10 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = $data['result'];
         $query = "INSERT INTO categories VALUES(null, '$category', '$name') ";
 
-        if (!mysqli_query($con, $query)) {
-            die("query failed");
+        if (mysqli_query($con, $query)) {
+        session_start();
+        $_SESSION['message'] = 'Operation Performed Successfully';
+        
         }
     }
+
 }
 
 
@@ -61,8 +64,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- add category container -->
         <div class="container mt-3 bg-white p-4">
-
+            <div class="row">
+            <div class="col-md-4">
             <h3> <i class="fa fa-plus text-success"></i> Add Category</h3>
+            </div>
+            <div class="col-md-8">
+            <?php
+        if(!empty($_SESSION['message'])){
+        $msg = $_SESSION['message'];
+        echo "<div class='alert alert-success alert-dismissible fade show credErr'>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span>
+        </button> <strong>Congratulations!</strong> $msg</div>";
+        unset($_SESSION['message']);
+        }
+        ?>
+            </div>
+            </div>
             <hr>
 
             <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" enctype="multipart/form-data" class="row">
@@ -177,6 +194,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $(document).ready(function() {
             setTimeout(function() {
                 $(".uploadingErr").hide();
+            }, 3000);
+
+        })
+
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".credErr").hide();
             }, 3000);
 
         })

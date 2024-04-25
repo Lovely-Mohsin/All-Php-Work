@@ -1,17 +1,9 @@
 <?php
 require_once("./db-con.php");
 
-if($_SERVER['REQUEST_METHOD'] == "POST"  && $_POST['submit'] == "login"){
-
-    
+if($_SERVER['REQUEST_METHOD'] == "POST"  && $_POST['submit'] == "login"){   
 }
-
 ?>
-
-
-
-
-
 
 <!DOCTYPE html>
 <html class="h-100" lang="en">
@@ -24,6 +16,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"  && $_POST['submit'] == "login"){
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Bootstrap/css/bootstrap.min.css">
+    <script src="../Bootstrap/js/bootstrap.bundle.min.js"></script>
     
 </head>
 
@@ -43,45 +37,59 @@ if($_SERVER['REQUEST_METHOD'] == "POST"  && $_POST['submit'] == "login"){
         Preloader end
     ********************-->
 
-    
+    <div class="row m-0 my-5">
 
+<div class="col-lg-4 col-md-5 col-sm-7 p-5 mx-auto shadow mt-2 p-5">
+<div>
+    <?php
+    session_start();
+    if(!empty($_SESSION['error'])){
+        $msg = $_SESSION['error'];
+        echo "<div class='alert alert-danger alert-dismissible fade show CredErr'>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span>
+        </button> <strong>Warning!</strong>$msg</div>";
+        unset($_SESSION['error']);
+    }
 
+    if(!empty($_SESSION['invalid'])){
+        $msg = $_SESSION['invalid'];
+        echo "<div class='alert alert-danger alert-dismissible fade show CredErr'>
+        <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span>
+        </button> <strong>Warning! </strong> $msg</div>";
+        unset($_SESSION['invalid']);
+    }
 
-    <div class="login-form-bg h-100">
-        <div class="container h-100">
-            <div class="row justify-content-center h-100 ">
-                <div class="col-xl-6 ">
-                    <div class="form-input-content ">
-                        <div class="card login-form mb-0">
-                            <div class="card-body pt-5 ">
-                                <a class="text-center" href="index.html"> <h4>Login</h4></a>
-
-                                <!--===== login form ==== -->
-                                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" class="mt-5 mb-5 login-input">
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" placeholder="Email">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="password" class="form-control" placeholder="Password">
-                                    </div>
-                                    <button class="btn btn-success text-white submit w-100" name="submit" value="login">Login <i class="fa-solid fa-right-to-bracket"></i></button>
-                                </form>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    ?>
+</div>
+    <form method="POST" action="./login-qry.php" class="p-4">
+        <h3 class="text-center">Login Form</h3>
+        <div class="mb-4">
+            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter here...">
         </div>
-    </div>
-    
+        <div class="mb-4">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" placeholder="Enter here..." name="password" id="exampleInputPassword1">
+        </div>
+
+        <button type="submit" name="login" class="btn btn-success d-block w-100 mx-auto" value="submit">Submit</button>
+    </form>
+</div>
+</div>
 
     
     <!-- javascript links include -->
     <?php require_once("./includes/javascript-links.php")  ?>
 </body>
 </html>
+<script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $(".CredErr").hide();
+            }, 3000);
 
+        })
+    </script>
 
 
 
