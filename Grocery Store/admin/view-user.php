@@ -56,9 +56,9 @@
                     
                     require_once("./db-con.php");
                     
-                    $get_products = "SELECT * FROM users";
+                    $get_users = "SELECT * FROM users";
 
-                       $result = mysqli_query($con , $get_products);
+                       $result = mysqli_query($con , $get_users);
 
                     if(mysqli_num_rows($result) > 0){
                         while($row = mysqli_fetch_assoc($result)){

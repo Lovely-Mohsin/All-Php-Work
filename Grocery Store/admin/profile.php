@@ -1,4 +1,3 @@
-
 <?php require_once("./auth.php") ?>
 
 <!DOCTYPE html>
@@ -47,16 +46,15 @@
                                     <img class="mr-3" src="images/avatar/11.png" width="80" height="80" alt="">
                                     </div>
                                     <div class="media-body">
-                                        <h3 class="mb-0"><?= $_SESSION['user_name']  ?></h3>
+                                        <h3 class="mb-0"><?= $_SESSION['user_name']?></h3>
                                     </div>
                                 </div>
                            
-
                                 <h4>About Me</h4>
                                 <p class="text-muted">Hi, I'm Pikamy, has been the industry standard dummy text ever since the 1500s.</p>
                                 <ul class="card-profile__info">
                                     <li class="mb-1"><strong class="text-dark mr-4">Mobile</strong> <span>01793931609</span></li>
-                                    <li><strong class="text-dark mr-4">Email</strong> <span>name@domain.com</span></li>
+                                    <li><strong class="text-dark mr-4">Email</strong> <?= $_SESSION['user_email']?></li>
                                 </ul>
                             </div>
                         </div>  

@@ -11,7 +11,7 @@ if(!isset($_SESSION['login']) || $_SESSION['login'] == false ){
 
 else {
 
-    $sel_qry = "SELECT * FROM users WHERE id = '$_SESSION[user_id] '";
+    $sel_qry = "SELECT * FROM users WHERE id = '$_SESSION[user_id]'";
     $result = mysqli_query($con, $sel_qry);
     
     $row  = mysqli_fetch_assoc($result);
